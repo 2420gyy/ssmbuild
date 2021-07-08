@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kuang.dao.BookMapper">
+    <!--    增-->
+    <insert id="addBook" parameterType="Books">
+        insert into ssmbuild.books (bookName, bookCounts, detail)
+        values (#{bookName},#{bookCounts},#{detail})
+    </insert>
+    <!--    删-->
+    <delete id="deleteBookById" parameterType="int">
+        delete from ssmbuild.books where bookID=#{bookid}
+    </delete>
+    <!--    改-->
+    <update id="updateBook" parameterType="Books">
+        update ssmbuild.books set bookName=#{bookName},
+        bookCounts=#{bookCounts},detail=#{detail}
+        where bookID=#{bookID}
+    </update>
+    <!--    查 resultType="com.kuang.pojo.Books" -->
+    <select id="queryById" parameterType="int" resultType="Books">
+        select * from ssmbuild.books where bookID=#{bookid}
+    </select>
+    <!--    查询所有-->
+    <select id="queryAllBook" resultType="Books">
+        select * from ssmbuild.books
+    </select>
+    <!--    Books小写也可以-->
+    <select id="queryBookByName" resultType="com.kuang.pojo.Books">
+        select * from ssmbuild.books where bookName = #{bookName}
+
+        <!--        <where>-->
+        <!--            <if test="bookName != null and bookName !=''">-->
+        <!--                bookName like "%"#{bookName}"%"-->
+        <!--            </if>-->
+        <!--        </where>-->
+    </select>
+    <!--    这里模糊查询返回有问题！！！！！-->
+    <!--    模糊查询  where bookName like concat("%",#{bookName},"%")-dao层返回list-->
+    <!--    select * from mybatis.user where name like "%"#{value}"%"  怎么就模糊查询了？？？-->
+</mapper>
